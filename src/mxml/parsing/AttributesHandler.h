@@ -5,9 +5,9 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #pragma once
-#include <lxml/BaseRecursiveHandler.h>
+#include "BaseRecursiveHandler.h"
 #include "ClefHandler.h"
-#include <lxml/IntegerHandler.h>
+#include "IntegerHandler.h"
 #include "KeyHandler.h"
 #include "TimeHandler.h"
 

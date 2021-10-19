@@ -5,10 +5,10 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #pragma once
-#include <lxml/BaseRecursiveHandler.h>
+#include "BaseRecursiveHandler.h"
 #include "EndingHandler.h"
 #include "RepeatHandler.h"
-#include <lxml/StringHandler.h>
+#include "StringHandler.h"
 
 #include <mxml/dom/Barline.h>
 #include <memory>

@@ -5,8 +5,8 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #pragma once
-#include <lxml/BaseRecursiveHandler.h>
-#include <lxml/StringHandler.h>
+#include "BaseRecursiveHandler.h"
+#include "StringHandler.h"
 #include "SyllabicHandler.h"
 
 #include <mxml/dom/Lyric.h>

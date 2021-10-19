@@ -11,10 +11,10 @@
 #include <mxml/dom/Wedge.h>
 #include <mxml/dom/Bracket.h>
 
-#include <lxml/BaseRecursiveHandler.h>
-#include <lxml/DoubleHandler.h>
-#include <lxml/IntegerHandler.h>
-#include <lxml/StringHandler.h>
+#include "BaseRecursiveHandler.h"
+#include "DoubleHandler.h"
+#include "IntegerHandler.h"
+#include "StringHandler.h"
 
 #include <memory>
 

@@ -5,8 +5,8 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #pragma once
-#include <lxml/BaseRecursiveHandler.h>
-#include <lxml/DoubleHandler.h>
+#include "BaseRecursiveHandler.h"
+#include "DoubleHandler.h"
 #include <mxml/dom/Types.h>
 
 

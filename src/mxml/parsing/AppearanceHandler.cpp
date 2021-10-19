@@ -6,7 +6,7 @@
 
 #include "AppearanceHandler.h"
 
-#include <lxml/DoubleHandler.h>
+#include "DoubleHandler.h"
 #include <mxml/dom/InvalidDataError.h>
 #include <cstring>
 

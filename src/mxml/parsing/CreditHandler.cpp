@@ -5,7 +5,7 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #include "CreditHandler.h"
-#include <lxml/IntegerHandler.h>
+#include "IntegerHandler.h"
 
 namespace mxml {
 

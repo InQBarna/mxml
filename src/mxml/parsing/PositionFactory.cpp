@@ -5,7 +5,7 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #include "PositionFactory.h"
-#include <lxml/DoubleHandler.h>
+#include "DoubleHandler.h"
 
 static const char* kDefaultXAttribute = "default-x";
 static const char* kDefaultYAttribute = "default-y";

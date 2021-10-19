@@ -7,8 +7,8 @@
 #include "PrintHandler.h"
 #include "TypeFactories.h"
 
-#include <lxml/DoubleHandler.h>
-#include <lxml/IntegerHandler.h>
+#include "DoubleHandler.h"
+#include "IntegerHandler.h"
 
 
 namespace mxml {

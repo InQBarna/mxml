@@ -7,7 +7,7 @@
 #pragma once
 #include <memory>
 
-#include <lxml/BaseRecursiveHandler.h>
+#include "BaseRecursiveHandler.h"
 #include <mxml/dom/Defaults.h>
 
 #include "AppearanceHandler.h"

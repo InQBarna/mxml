@@ -5,10 +5,10 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #pragma once
-#include <lxml/BaseRecursiveHandler.h>
-#include <lxml/DoubleHandler.h>
-#include <lxml/IntegerHandler.h>
-#include <lxml/StringHandler.h>
+#include "BaseRecursiveHandler.h"
+#include "DoubleHandler.h"
+#include "IntegerHandler.h"
+#include "StringHandler.h"
 
 #include <mxml/dom/Pitch.h>
 

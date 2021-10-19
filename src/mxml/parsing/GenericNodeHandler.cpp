@@ -6,7 +6,7 @@
 
 #include "GenericNodeHandler.h"
 
-#include <lxml/StringHandler.h>
+#include "StringHandler.h"
 
 
 namespace mxml {

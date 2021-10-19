@@ -4,8 +4,8 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-#include <lxml/IntegerHandler.h>
-#include <lxml/StringHandler.h>
+#include "IntegerHandler.h"
+#include "StringHandler.h"
 
 #include "FormattedTextHandler.h"
 #include "PositionFactory.h"

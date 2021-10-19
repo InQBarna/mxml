@@ -5,7 +5,7 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #include "LyricHandler.h"
-#include <lxml/IntegerHandler.h>
+#include "IntegerHandler.h"
 #include <mxml/dom/InvalidDataError.h>
 
 namespace mxml {
