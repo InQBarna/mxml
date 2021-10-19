@@ -170,7 +170,11 @@ public:
     LayoutType layoutType() const {
         return _layoutType;
     }
-
+    
+    std::set<std::size_t> _systemBeginsSet;
+    std::vector<std::size_t> _systemBegins;
+    std::set<std::size_t> _pageBeginsSet;
+    std::vector<std::size_t> _pageBegins;
     
 private:
     /**
@@ -267,11 +271,6 @@ private:
     std::vector<Jump> _jumps;
     std::vector<int> _staves;
     std::size_t _measureCount;
-
-    std::set<std::size_t> _systemBeginsSet;
-    std::vector<std::size_t> _systemBegins;
-    std::set<std::size_t> _pageBeginsSet;
-    std::vector<std::size_t> _pageBegins;
 
     const LayoutType _layoutType;
 };

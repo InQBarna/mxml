@@ -10,6 +10,7 @@
 
 #include <mxml/ScoreProperties.h>
 #include <mxml/dom/Score.h>
+#include <mxml/EventFactory.h>
 
 #include <vector>
 
@@ -18,7 +19,7 @@ namespace mxml {
 
 class PageScoreGeometry : public Geometry {
 public:
-    PageScoreGeometry(const dom::Score& score, coord_t minWidth);
+    PageScoreGeometry(const dom::Score& score, coord_t minWidth, coord_t maxWidth, int measuresPerLine);
 
     const dom::Score& score() const {
         return _score;
@@ -35,6 +36,8 @@ public:
 
     void setActiveRange(std::size_t startMeasureIndex, std::size_t endMeasureIndex);
     
+    std::unique_ptr<EventSequence> events();
+
 protected:
     coord_t maxSystemWidth() const;
     coord_t maxSystemDistance() const;
@@ -47,6 +50,8 @@ private:
     ScoreProperties _scoreProperties;
     std::unique_ptr<SpanCollection> _spans;
     std::vector<SystemGeometry*> _systemGeometries;
+    
+    int _totalLines;
 };
 
 } // namespace

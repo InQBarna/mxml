@@ -7,15 +7,26 @@
 #include "PageScoreGeometry.h"
 #include <mxml/SpanFactory.h>
 
-
 namespace mxml {
 
 const coord_t kSystemDistancePadding = 20;
 
-PageScoreGeometry::PageScoreGeometry(const dom::Score& score, coord_t minWidth)
+PageScoreGeometry::PageScoreGeometry(const dom::Score& score, coord_t minWidth, coord_t maxWidth, int measuresPerLine)
 : _score(score),
   _scoreProperties(score, ScoreProperties::LayoutType::Page)
 {
+    // Set _scoreProperties._systemBeginsSet accordingly
+    int totalMeasures = (int)_score.parts().front()->measures().size();
+    _totalLines =  totalMeasures / measuresPerLine;
+    if (totalMeasures % measuresPerLine > 0) {
+        _totalLines++;
+    }
+    for (std::size_t systemIndex = 0; systemIndex < totalMeasures; systemIndex += measuresPerLine) {
+        _scoreProperties._systemBeginsSet.insert(systemIndex);
+    }
+    
+    _scoreProperties._systemBegins.insert(_scoreProperties._systemBegins.end(), _scoreProperties._systemBeginsSet.begin(), _scoreProperties._systemBeginsSet.end());
+    
     SpanFactory spanFactory(_score, _scoreProperties);
     spanFactory.setNaturalSpacing(false);
     _spans = spanFactory.build();
@@ -24,14 +35,14 @@ PageScoreGeometry::PageScoreGeometry(const dom::Score& score, coord_t minWidth)
     
     // Make all widths uniform
     const auto width = std::max(minWidth, maxSystemWidth());
-    for (std::size_t systemIndex = 0; systemIndex < _scoreProperties.systemCount(); systemIndex += 1) {
+    for (std::size_t systemIndex = 0; systemIndex < _totalLines; systemIndex += 1) {
         auto range = _scoreProperties.measureRange(systemIndex);
         _spans->fitToWidth(width, range.first, range.second);
     }
     _spans->fillStarts();
 
     // Create system geometires
-    for (std::size_t systemIndex = 0; systemIndex < _scoreProperties.systemCount(); systemIndex += 1) {
+    for (std::size_t systemIndex = 0; systemIndex < _totalLines; systemIndex += 1) {
         auto systemGeometry = std::unique_ptr<SystemGeometry>(new SystemGeometry(_score, _scoreProperties, *_spans, directionGeometryFactory, systemIndex, width));
         systemGeometry->setHorizontalAnchorPointValues(0, 0);
         systemGeometry->setVerticalAnchorPointValues(0, 0);
@@ -52,7 +63,7 @@ PageScoreGeometry::PageScoreGeometry(const dom::Score& score, coord_t minWidth)
 
 coord_t PageScoreGeometry::maxSystemWidth() const {
     coord_t width = 0;
-    for (std::size_t systemIndex = 0; systemIndex < _scoreProperties.systemCount(); systemIndex += 1) {
+    for (std::size_t systemIndex = 0; systemIndex < _totalLines; systemIndex += 1) {
         auto range = _scoreProperties.measureRange(systemIndex);
         coord_t systemWidth = 0;
         for (auto measureIndex = range.first; measureIndex != range.second; measureIndex += 1) {
@@ -101,5 +112,11 @@ void PageScoreGeometry::setActiveRange(std::size_t startMeasureIndex, std::size_
         systemGeometry->setActiveRange(startMeasureIndex, endMeasureIndex);
     }
 }
+
+std::unique_ptr<EventSequence> PageScoreGeometry::events() {
+    EventFactory eventFactory(_score, _scoreProperties);
+    return eventFactory.build();
+}
+
 
 } // namespace mxml

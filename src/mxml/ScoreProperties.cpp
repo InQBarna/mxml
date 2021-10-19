@@ -52,8 +52,7 @@ ScoreProperties::ScoreProperties(const dom::Score& score, LayoutType layoutType)
 
     JumpFactory jumpFactory(score);
     _jumps = jumpFactory.build();
-
-    _systemBegins.insert(_systemBegins.end(), _systemBeginsSet.begin(), _systemBeginsSet.end());
+    
     _pageBegins.insert(_pageBegins.end(), _pageBeginsSet.begin(), _pageBeginsSet.end());
 }
 
@@ -107,7 +106,7 @@ void ScoreProperties::process(std::size_t partIndex, std::size_t measureIndex, c
 
 void ScoreProperties::process(std::size_t partIndex, std::size_t measureIndex, const dom::Print& print) {
     if (print.newSystem || print.newPage)
-        _systemBeginsSet.insert(measureIndex);
+//        _systemBeginsSet.insert(measureIndex);
     if (print.newPage)
         _pageBeginsSet.insert(measureIndex);
 }
