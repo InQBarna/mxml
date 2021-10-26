@@ -30,7 +30,9 @@ const std::string ArticulationHandler::kTagNames[] = {
     "stress",
     "strong-accent",
     "tenuto",
-    "unstress"
+    "unstress",
+    "up-bow",
+    "down-bow"
 };
 
 void ArticulationHandler::startElement(const QName& qname, const AttributeMap& attributes) {
@@ -59,6 +61,8 @@ Articulation::Type ArticulationHandler::typeFromString(const std::string& string
     if (string == "strong-accent") return Articulation::Type::StrongAccent;
     if (string == "tenuto") return Articulation::Type::Tenuto;
     if (string == "unstress") return Articulation::Type::Unstress;
+    if (string == "up-bow") return Articulation::Type::UpBow;
+    if (string == "down-bow") return Articulation::Type::DownBow;
     throw dom::InvalidDataError("Invalid articulation type " + string);
 }
 

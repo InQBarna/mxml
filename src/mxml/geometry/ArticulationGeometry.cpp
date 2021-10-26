@@ -22,6 +22,10 @@ ArticulationGeometry::ArticulationGeometry(const dom::Articulation& articulation
         setSize(kSpiccatoSize);
     } else if (articulation.type() == dom::Articulation::Type::Staccatissimo) {
         setSize(kStaccatissimoSize);
+    } else if (articulation.type() == dom::Articulation::Type::UpBow) {
+        setSize(kAccentSize);
+    } else if (articulation.type() == dom::Articulation::Type::DownBow) {
+        setSize(kAccentSize);
     }
 }
 

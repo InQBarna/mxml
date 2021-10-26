@@ -30,7 +30,9 @@ public:
         Stress,
         StrongAccent,
         Tenuto,
-        Unstress
+        Unstress,
+        UpBow,
+        DownBow
     };
     
 public:

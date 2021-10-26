@@ -16,6 +16,7 @@ using lxml::QName;
 
 static const char* kPrintObjectAttribute = "print-object";
 static const char* kArticulationsTag = "articulations";
+static const char* kTechnicalTag = "technical";
 static const char* kFermataTag = "fermata";
 static const char* kSlurTag = "slur";
 static const char* kOrnamentsTag = "ornaments";
@@ -35,6 +36,8 @@ void NotationsHandler::startElement(const QName& qname, const AttributeMap& attr
 lxml::RecursiveHandler* NotationsHandler::startSubElement(const QName& qname) {
     if (strcmp(qname.localName(), kArticulationsTag) == 0)
         return &_articulationsHandler;
+    else if (strcmp(qname.localName(), kTechnicalTag) == 0)
+        return &_articulationsHandler;
     else if (strcmp(qname.localName(), kFermataTag) == 0)
         return &_fermataHandler;
     else if (strcmp(qname.localName(), kOrnamentsTag) == 0)
@@ -50,6 +53,8 @@ lxml::RecursiveHandler* NotationsHandler::startSubElement(const QName& qname) {
 
 void NotationsHandler::endSubElement(const QName& qname, RecursiveHandler* parser) {
     if (strcmp(qname.localName(), kArticulationsTag) == 0) {
+        _result->articulations = _articulationsHandler.result();
+    } else if (strcmp(qname.localName(), kTechnicalTag) == 0) {
         _result->articulations = _articulationsHandler.result();
     } else if (strcmp(qname.localName(), kFermataTag) == 0) {
         _result->fermata = _fermataHandler.result();
