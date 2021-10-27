@@ -7,6 +7,7 @@
 #include "ArticulationHandler.h"
 #include "EmptyPlacementHandler.h"
 #include <mxml/dom/InvalidDataError.h>
+#include "StringHandler.h"
 
 namespace mxml {
 
@@ -44,6 +45,10 @@ void ArticulationHandler::startElement(const QName& qname, const AttributeMap& a
         _result->setPlacement(presentOptional(EmptyPlacementHandler::placementFromString(placement->second)));
 }
 
+void ArticulationHandler::endElement(const lxml::QName& qname, const std::string& contents) {
+    _result->setContents(lxml::StringHandler::trim(contents));
+}
+
 Articulation::Type ArticulationHandler::typeFromString(const std::string& string) {
     if (string == "accent") return Articulation::Type::Accent;
     if (string == "breath-mark") return Articulation::Type::BreathMark;
@@ -63,6 +68,7 @@ Articulation::Type ArticulationHandler::typeFromString(const std::string& string
     if (string == "unstress") return Articulation::Type::Unstress;
     if (string == "up-bow") return Articulation::Type::UpBow;
     if (string == "down-bow") return Articulation::Type::DownBow;
+    if (string == "fingering") return Articulation::Type::Fingering;
     throw dom::InvalidDataError("Invalid articulation type " + string);
 }
 

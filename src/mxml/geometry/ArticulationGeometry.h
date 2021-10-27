@@ -13,6 +13,7 @@ namespace mxml {
 class ArticulationGeometry : public Geometry {
 public:
     static const Size kAccentSize;
+    static const Size kFingeringSize;
     static const Size kSpiccatoSize;
     static const Size kStaccatoSize;
     static const Size kStaccatissimoSize;

@@ -9,6 +9,7 @@
 namespace mxml {
 
 const Size ArticulationGeometry::kAccentSize = {14, 10};
+const Size ArticulationGeometry::kFingeringSize = {14, 20};
 const Size ArticulationGeometry::kSpiccatoSize = {4, 8};
 const Size ArticulationGeometry::kStaccatoSize = {3, 3};
 const Size ArticulationGeometry::kStaccatissimoSize = {6, 9};
@@ -26,7 +27,10 @@ ArticulationGeometry::ArticulationGeometry(const dom::Articulation& articulation
         setSize(kAccentSize);
     } else if (articulation.type() == dom::Articulation::Type::DownBow) {
         setSize(kAccentSize);
+    } else if (articulation.type() == dom::Articulation::Type::Fingering) {
+        setSize(kFingeringSize);
     }
+    
 }
 
 } // namespace mxml

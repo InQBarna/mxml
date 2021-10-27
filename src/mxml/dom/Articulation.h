@@ -8,6 +8,7 @@
 #include "EmptyPlacement.h"
 #include "Node.h"
 #include "Optional.h"
+#include <string>
 
 namespace mxml {
 namespace dom {
@@ -32,7 +33,8 @@ public:
         Tenuto,
         Unstress,
         UpBow,
-        DownBow
+        DownBow,
+        Fingering
     };
     
 public:
@@ -46,8 +48,16 @@ public:
         _type = type;
     }
     
+    const std::string& contents() const {
+        return _contents;
+    }
+    void setContents(const std::string& contents) {
+        _contents = contents;
+    }
+    
 private:
     Type _type;
+    std::string _contents;
 };
 
 } // namespace dom

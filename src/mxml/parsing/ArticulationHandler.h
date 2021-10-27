@@ -19,6 +19,7 @@ public:
     
 public:
     void startElement(const lxml::QName& qname, const lxml::RecursiveHandler::AttributeMap& attributes);
+    void endElement(const lxml::QName& qname, const std::string& contents);
     
     static dom::Articulation::Type typeFromString(const std::string& string);
     
