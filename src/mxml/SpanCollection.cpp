@@ -216,6 +216,101 @@ coord_t SpanCollection::width(std::size_t measureIndex) const {
     return width;
 }
 
+coord_t SpanCollection::widthPercentageForDivision(std::size_t measureIndex, time_t division) const {
+    mxml::Span prevSpan;
+    mxml::Span nextSpan;
+    
+    coord_t activeWidth = 0;
+    coord_t spanWidth = 0;
+    coord_t prevSpanWidth = 0;
+    auto r = range(measureIndex);
+        
+    for (auto it = r.first; it != r.second; ++it) {
+        auto& span = *it;
+        
+        prevSpanWidth = spanWidth;
+        spanWidth = span.width() + span.rightMargin();
+        assert(!_naturalSpacing); // would have to take this into account
+        
+        if (!span.event()) {
+            if (span.hasNodeType(typeid(dom::Time))) {
+                activeWidth += spanWidth;
+            }
+        } else if (span.time() >= division) {
+//            activeWidth += span.eventOffset();
+            nextSpan = span;
+            if (prevSpan.time() == 0) {
+                prevSpan = span;
+            }
+            activeWidth += prevSpanWidth;
+            break;
+        } else {
+            prevSpan = span;
+        }
+    }
+    
+//    activeWidth += prevSpan.width() / 2 + prevSpan.eventOffset();
+    
+    coord_t totalMeasureWidth = width(measureIndex);
+    
+//    bool isInLastMeasureSpan = nextSpan.time() == 0;
+    
+    int divisionsLeft = division - prevSpan.time();
+    
+    for (auto& node : prevSpan.nodes()) {
+        if (const dom::TimedNode* timedNode = dynamic_cast<const dom::TimedNode*>(node)) {
+            int activeSpanDivisions = timedNode->duration();
+            float activeSpanPercentageFilled = (float)divisionsLeft / (float)activeSpanDivisions;
+//            if (isInLastMeasureSpan) {
+//                spanWidth += margin;
+//            }
+            float activeSpanWidthFilled = activeSpanPercentageFilled * spanWidth;
+//            totalWidth += activeSpanWidthFilled;
+//            assert(totalWidth > 0);
+            break;
+        }
+    }
+        
+    float pct = activeWidth / totalMeasureWidth;
+//    assert(pct > -0.001);
+//    assert(pct < 1.001);
+    
+    return pct;
+}
+
+Span SpanCollection::activeSpanForDivision(std::size_t measureIndex, time_t division) const {
+    mxml::Span prevSpan;
+    mxml::Span nextSpan;
+    
+    coord_t totalWidth = 0;
+    coord_t margin = 0;
+    coord_t spanWidth = 0;
+    auto r = range(measureIndex);
+        
+    for (auto it = r.first; it != r.second; ++it) {
+        auto& span = *it;
+        margin = std::max(margin, span.leftMargin());
+        
+        spanWidth = margin + span.width();
+        if (_naturalSpacing) {
+            spanWidth = margin + std::max(span.width(), span.naturalWidth());
+        }
+        
+        if (span.time() >= division) {
+            nextSpan = span;
+            break;
+        } else {
+            prevSpan = span;
+            totalWidth += spanWidth;
+            assert(totalWidth > 0);
+        }
+        
+        margin = span.rightMargin();
+    }
+    
+    return prevSpan;
+}
+
 void SpanCollection::fitToWidth(coord_t targetWidth, std::size_t beginMeasure, std::size_t endMeasure) {
     // Compute total width
     std::vector<coord_t> widths;

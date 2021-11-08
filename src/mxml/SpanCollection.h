@@ -143,6 +143,12 @@ public:
     /** Compute the total width of the measure based on span widths and margins. */
     coord_t width(std::size_t measureIndex) const;
 
+    /** Compute measure width percentage for given division number  */
+    coord_t widthPercentageForDivision(std::size_t measureIndex, time_t division) const;
+    
+    /** -- */
+    Span activeSpanForDivision(std::size_t measureIndex, time_t division) const;
+    
     /**
      Expand spacing between notes to fill up each system to the given width.
      */
