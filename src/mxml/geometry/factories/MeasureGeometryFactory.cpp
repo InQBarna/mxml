@@ -54,6 +54,9 @@ std::unique_ptr<MeasureGeometry> MeasureGeometryFactory::build(const Measure& me
         } else if (const Barline* barline = dynamic_cast<const Barline*>(node.get())) {
             buildBarline(barline);
         } else if (const TimedNode* timedNode = dynamic_cast<const TimedNode*>(node.get())) {
+            if (_measureIndex == 18) {
+                printf("");
+            }
             buildTimedNode(timedNode);
         }
     }

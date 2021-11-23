@@ -21,6 +21,22 @@ const coord_t StemGeometry::kVerticalOffset = 1;
 StemGeometry::StemGeometry(const Note& note, bool showFlags)
 : _note(note), _stemDirection(note.stem()), _showFlags(showFlags) {
     assert(_stemDirection == dom::Stem::Up || _stemDirection == dom::Stem::Down);
+
+    const auto& notations = note.notations;
+    if (notations) {
+        bool shouldForceStemUp = false;
+        for (auto& articulation : notations->articulations) {
+            if (articulation->type() == dom::Articulation::Type::DownBow
+                || articulation->type() == dom::Articulation::Type::UpBow) {
+                shouldForceStemUp = true;
+                break;
+            }
+        }
+        if (shouldForceStemUp) {
+            setStemDirection(dom::Stem::Up);
+        }
+    }
+    
     setSize(Size(note, _stemDirection, showFlags));
     setStaff(note.staff());
 }

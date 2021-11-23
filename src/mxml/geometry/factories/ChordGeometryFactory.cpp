@@ -226,7 +226,10 @@ void ChordGeometryFactory::placeArticulation(ChordGeometry* chordGeometry, Artic
     auto& articulation = articulationGeometry->articulation();
 
     bool above = true;
-    if (articulation.placement().isPresent()) {
+    if (articulation.type() == dom::Articulation::Type::DownBow
+        || articulation.type() == dom::Articulation::Type::UpBow) {
+        above = true;
+    } else if (articulation.placement().isPresent()) {
         above = articulation.placement() == dom::Placement::Above;
     } else if (chordGeometry->stem()) {
         above = chordGeometry->stem()->stemDirection() == dom::Stem::Down;
