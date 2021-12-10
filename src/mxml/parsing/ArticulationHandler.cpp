@@ -69,6 +69,7 @@ Articulation::Type ArticulationHandler::typeFromString(const std::string& string
     if (string == "up-bow") return Articulation::Type::UpBow;
     if (string == "down-bow") return Articulation::Type::DownBow;
     if (string == "fingering") return Articulation::Type::Fingering;
+    if (string == "string") return Articulation::Type::Fingering;
     throw dom::InvalidDataError("Invalid articulation type " + string);
 }
 
