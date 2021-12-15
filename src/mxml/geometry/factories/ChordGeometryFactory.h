@@ -32,12 +32,16 @@ private:
     void buildAccidentals(const Rect& notesFrame);
     void buildAccidental(const NoteGeometry& noteGeom, const Rect& notesFrame);
     void buildNotations(const dom::Chord& chord, const Rect& notesFrame);
+    void buildBowNotations(const dom::Chord& chord, const Rect& notesFrame);
+
     void buildArticulation(const dom::Chord& chord, const dom::Articulation& articulation, Rect& notesFrame);
+    void buildBowArticulation(const dom::Chord& chord, const dom::Articulation& articulation, Rect& notesFrame);
     void buildFermata(const dom::Fermata& fermata, Rect& notesFrame);
     void buildStem(const dom::Chord& chord);
 
     Rect placeNotes(ChordGeometry* chordGeometry);
     void placeArticulation(ChordGeometry* chordGeometry, ArticulationGeometry* articulationGeometry, Rect& notesFrame);
+    void placeBowArticulation(ChordGeometry* chordGeometry, ArticulationGeometry* articulationGeometry, Rect& notesFrame); // exception articulations -> always on top
     void placeStem(ChordGeometry* chordGeometry);
 
 private:

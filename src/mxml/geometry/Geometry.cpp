@@ -6,7 +6,7 @@
 
 #include "Geometry.h"
 #include "KeyGeometry.h"
-
+#include "ArticulationGeometry.h"
 #include <cassert>
 #include <deque>
 
@@ -35,6 +35,12 @@ Rect Geometry::subGeometriesFrame() const {
     bool first = true;
     Rect frame;
     for (auto& geom : _geometries) {
+        if (auto articulationGeometry = dynamic_cast<ArticulationGeometry*>(geom.get())) {
+            if (articulationGeometry->articulation().type() == dom::Articulation::Type::DownBow
+                || articulationGeometry->articulation().type() == dom::Articulation::Type::UpBow ) {
+                continue;
+            }
+        }
         if (first)
             frame = geom->frame();
         else

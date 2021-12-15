@@ -26,7 +26,8 @@ std::unique_ptr<ChordGeometry> ChordGeometryFactory::build(const dom::Chord& cho
     buildAccidentals(notesFrame);
     buildNotations(chord, notesFrame);
     buildStem(chord);
-
+    buildBowNotations(chord, notesFrame);
+    
     _geometry->setBounds(_geometry->subGeometriesFrame());
 
     return std::move(_geometry);
@@ -38,11 +39,24 @@ void ChordGeometryFactory::resetForStem(ChordGeometry* chordGeometry) {
 
     Rect notesFrame = placeNotes(chordGeometry);
     for (auto& geom : chordGeometry->geometries()) {
-        if (auto articulationGeometry = dynamic_cast<ArticulationGeometry*>(geom.get()))
-            placeArticulation(chordGeometry, articulationGeometry, notesFrame);
+        if (auto articulationGeometry = dynamic_cast<ArticulationGeometry*>(geom.get())) {
+            if (articulationGeometry->articulation().type() != dom::Articulation::Type::DownBow
+                && articulationGeometry->articulation().type() != dom::Articulation::Type::UpBow) {
+                placeArticulation(chordGeometry, articulationGeometry, notesFrame);
+            }
+        }
     }
     placeStem(chordGeometry);
 
+    for (auto& geom : chordGeometry->geometries()) {
+        if (auto articulationGeometry = dynamic_cast<ArticulationGeometry*>(geom.get())) {
+            if (articulationGeometry->articulation().type() == dom::Articulation::Type::DownBow
+                || articulationGeometry->articulation().type() == dom::Articulation::Type::UpBow) {
+                placeBowArticulation(chordGeometry, articulationGeometry, notesFrame);
+            }
+        }
+    }
+    
     chordGeometry->setBounds(chordGeometry->subGeometriesFrame());
 }
 
@@ -129,17 +143,47 @@ void ChordGeometryFactory::buildNotations(const dom::Chord& chord, const Rect& n
     Rect frame = notesFrame;
     const auto& notations = note->notations;
     for (auto& artic : notations->articulations) {
-        buildArticulation(chord, *artic, frame);
+        if (artic->type() != dom::Articulation::Type::DownBow
+            && artic->type() != dom::Articulation::Type::UpBow) {
+            buildArticulation(chord, *artic, frame);
+        }
     }
-
+    
     if (notations->fermata) {
         buildFermata(*notations->fermata, frame);
     }
 }
 
+void ChordGeometryFactory::buildBowNotations(const dom::Chord& chord, const Rect& notesFrame) {
+    if (chord.notes().empty())
+        return;
+
+    // Notations should be on the first note of the chord
+    const dom::Note* note = chord.notes().front().get();
+
+    if (!note || !note->notations)
+        return;
+
+    Rect frame = notesFrame;
+    const auto& notations = note->notations;
+    for (auto& artic : notations->articulations) {
+        if (artic->type() == dom::Articulation::Type::DownBow
+            || artic->type() == dom::Articulation::Type::UpBow) {
+            buildBowArticulation(chord, *artic, frame);
+        }
+    }
+}
+
+
 void ChordGeometryFactory::buildArticulation(const dom::Chord& chord, const dom::Articulation& articulation, Rect& notesFrame) {
     std::unique_ptr<ArticulationGeometry> geom(new ArticulationGeometry(articulation, chord.stem()));
     placeArticulation(_geometry.get(), geom.get(), notesFrame);
+    _geometry->addGeometry(std::move(geom));
+}
+
+void ChordGeometryFactory::buildBowArticulation(const dom::Chord& chord, const dom::Articulation& articulation, Rect& notesFrame) {
+    std::unique_ptr<ArticulationGeometry> geom(new ArticulationGeometry(articulation, chord.stem()));
+    placeBowArticulation(_geometry.get(), geom.get(), notesFrame);
     _geometry->addGeometry(std::move(geom));
 }
 
@@ -226,10 +270,8 @@ void ChordGeometryFactory::placeArticulation(ChordGeometry* chordGeometry, Artic
     auto& articulation = articulationGeometry->articulation();
 
     bool above = true;
-    if (articulation.type() == dom::Articulation::Type::DownBow
-        || articulation.type() == dom::Articulation::Type::UpBow) {
-        above = true;
-    } else if (articulation.placement().isPresent()) {
+
+    if (articulation.placement().isPresent()) {
         above = articulation.placement() == dom::Placement::Above;
     } else if (chordGeometry->stem()) {
         above = chordGeometry->stem()->stemDirection() == dom::Stem::Down;
@@ -276,6 +318,20 @@ void ChordGeometryFactory::placeArticulation(ChordGeometry* chordGeometry, Artic
     
     articulationGeometry->setLocation(location);
     notesFrame = join(notesFrame, articulationGeometry->frame());
+}
+
+void ChordGeometryFactory::placeBowArticulation(ChordGeometry* chordGeometry, ArticulationGeometry* articulationGeometry, Rect& notesFrame) {
+    auto stemFrame = chordGeometry->stem()->frame();
+    
+    Size size = articulationGeometry->size();
+    
+    Point location;
+    location.x = notesFrame.center().x;
+    coord_t y = fminf(notesFrame.origin.y, stemFrame.origin.y - size.height/2 - ChordGeometry::kArticulationSpacing);
+    y = fminf(y, _metrics.staffOrigin(1));
+    location.y = y - size.height/2 - ChordGeometry::kArticulationSpacing;
+
+    articulationGeometry->setLocation(location);
 }
 
 void ChordGeometryFactory::placeStem(ChordGeometry* chordGeometry) {
