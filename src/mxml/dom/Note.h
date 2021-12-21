@@ -153,6 +153,19 @@ public:
     void addLyric(std::unique_ptr<Lyric> lyric) {
         _lyrics.push_back(std::move(lyric));
     }
+    
+    bool isFullNote() const {
+        if (notations) {
+            for (auto& artic : notations->articulations) {
+                if (artic->type() == mxml::dom::Articulation::Type::Staccato
+                    || artic->type() == mxml::dom::Articulation::Type::Staccatissimo
+                    || artic->type() == mxml::dom::Articulation::Type::Spiccato) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     /**
      Return the alter value for this note, coming either from an accidental or from the pitch alter value.
