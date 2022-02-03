@@ -23,6 +23,7 @@ static const char* kPrintTag = "print";
 static const char* kBarlineTag = "barline";
 
 static const char* kNumberAttribute = "number";
+static const char* kImplicitAttribute = "implicit";
 
 void MeasureHandler::startElement(const QName& qname, const AttributeMap& attributes) {
     endChord();
@@ -34,6 +35,10 @@ void MeasureHandler::startElement(const QName& qname, const AttributeMap& attrib
     auto numberit = attributes.find(kNumberAttribute);
     if (numberit != attributes.end())
         _result->setNumber(numberit->second);
+    
+    auto implicit = attributes.find(kImplicitAttribute);
+    if (implicit != attributes.end())
+        _result->setPickup(implicit->second == "yes");
 }
 
 void MeasureHandler::endElement(const QName& qname, const std::string& contents) {

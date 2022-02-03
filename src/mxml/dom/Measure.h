@@ -45,6 +45,16 @@ public:
     void setNumber(const std::string& number) {
         _number = number;
     }
+
+    /**
+     Bool indicating if the measure is an incomplete measure before the first complete measure
+     */
+    const bool pickup() const {
+        return _pickup;
+    }
+    void setPickup(const bool pickup) {
+        _pickup = pickup;
+    }
     
     const std::vector<std::unique_ptr<Node>>& nodes() const {
         return _nodes;
@@ -62,6 +72,7 @@ private:
     std::size_t _index;
     std::string _number;
     std::vector<std::unique_ptr<Node>> _nodes;
+    bool _pickup;
 };
 
 } // namespace dom
