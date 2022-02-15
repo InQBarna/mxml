@@ -18,7 +18,6 @@
 #include <mxml/geometry/RestGeometry.h>
 #include <mxml/geometry/TimeSignatureGeometry.h>
 #include <mxml/geometry/TupletGeometry.h>
-
 #include "StemDirectionResolver.h"
 
 
@@ -28,10 +27,12 @@ using namespace dom;
 
 MeasureGeometryFactory::MeasureGeometryFactory(const SpanCollection& spans,
                                                const ScoreProperties& scoreProperties,
-                                               const Metrics& metrics)
+                                               const Metrics& metrics,
+                                               ScoreDrawings *drawings)
 : _spans(spans),
   _scoreProperties(scoreProperties),
   _metrics(metrics),
+  _drawings(drawings),
   _partIndex(metrics.partIndex()),
   _chordGeometryFactory(scoreProperties, metrics)
 {
@@ -39,7 +40,7 @@ MeasureGeometryFactory::MeasureGeometryFactory(const SpanCollection& spans,
 
 std::unique_ptr<MeasureGeometry> MeasureGeometryFactory::build(const Measure& measure, bool firstMeasureInSystem) {
     _measureIndex = measure.index();
-    _geometry.reset(new MeasureGeometry(measure, _spans, _scoreProperties, _metrics));
+    _geometry.reset(new MeasureGeometry(measure, _spans, _scoreProperties, _metrics, _drawings));
     _currentTime = 0;
 
     if (firstMeasureInSystem)

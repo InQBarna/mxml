@@ -11,7 +11,7 @@
 #include <mxml/ScoreProperties.h>
 #include <mxml/SpanCollection.h>
 #include <mxml/dom/Measure.h>
-
+#include <mxml/ScoreDrawings.hpp>
 
 namespace mxml {
 
@@ -23,7 +23,8 @@ public:
     MeasureGeometry(const dom::Measure& measure,
                     const SpanCollection& spans,
                     const ScoreProperties& scoreProperties,
-                    const Metrics& metrics);
+                    const Metrics& metrics,
+                    ScoreDrawings *drawings);
     
     const dom::Measure& measure() const {
         return _measure;
@@ -49,6 +50,14 @@ public:
         return _scoreProperties;
     }
     
+    ScoreDrawings *drawings() const {
+        return _drawings;
+    }
+    
+    void configureDrawings(ScoreDrawings *draws) {
+        _drawings = draws;
+    }
+    
 private:
     const dom::Measure& _measure;
     const SpanCollection& _spans;
@@ -56,6 +65,8 @@ private:
     const Metrics& _metrics;
     const std::size_t _partIndex;
 
+    ScoreDrawings *_drawings;
+    
     /**
      If true this measure should show its number.
      */

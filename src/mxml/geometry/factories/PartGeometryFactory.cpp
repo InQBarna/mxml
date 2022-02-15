@@ -37,7 +37,7 @@ std::unique_ptr<PartGeometry> PartGeometryFactory::build() {
 std::unique_ptr<PartGeometry> PartGeometryFactory::build(std::size_t beginMeasure, std::size_t endMeasure){
     _partGeometry.reset(new PartGeometry(_part, _scoreProperties, _metrics));
 
-    MeasureGeometryFactory mesureGeometryFactory(_spans, _scoreProperties, _metrics);
+    MeasureGeometryFactory mesureGeometryFactory(_spans, _scoreProperties, _metrics, new ScoreDrawings());
 
     coord_t offset = 0;
     for (std::size_t measureIndex = beginMeasure; measureIndex != endMeasure; measureIndex += 1) {

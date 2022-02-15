@@ -12,7 +12,6 @@
 #include <mxml/dom/Measure.h>
 #include <mxml/dom/Tuplet.h>
 #include <mxml/geometry/MeasureGeometry.h>
-
 #include <memory>
 #include <vector>
 
@@ -27,7 +26,8 @@ class MeasureGeometryFactory {
 public:
     MeasureGeometryFactory(const SpanCollection& spans,
                            const ScoreProperties& scoreProperties,
-                           const Metrics& metrics);
+                           const Metrics& metrics,
+                           ScoreDrawings *drawings);
 
     std::unique_ptr<MeasureGeometry> build(const dom::Measure& measure, bool firstMeasureInSystem);
 
@@ -56,7 +56,7 @@ private:
     const ScoreProperties& _scoreProperties;
     const Metrics& _metrics;
     const std::size_t _partIndex;
-
+    ScoreDrawings *_drawings;
     std::size_t _measureIndex;
     std::unique_ptr<MeasureGeometry> _geometry;
 

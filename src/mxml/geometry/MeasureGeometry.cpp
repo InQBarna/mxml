@@ -29,11 +29,13 @@ const coord_t MeasureGeometry::kGraceNoteScale = 0.85;
 MeasureGeometry::MeasureGeometry(const Measure& measure,
                                  const SpanCollection& spans,
                                  const ScoreProperties& scoreProperties,
-                                 const Metrics& metrics)
+                                 const Metrics& metrics,
+                                 ScoreDrawings *drawings)
 : _measure(measure),
   _spans(spans),
   _scoreProperties(scoreProperties),
   _metrics(metrics),
+  _drawings(drawings),
   _partIndex(metrics.partIndex()),
   _showNumber(false)
 {
