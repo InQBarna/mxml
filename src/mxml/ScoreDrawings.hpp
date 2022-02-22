@@ -19,6 +19,10 @@
 class ScoreDrawings {
     
 public:
+
+    /**
+        Pitch Estimation Curve
+     */
     std::vector<ScorePitchEstimation> pitchEstimations() {
         return _pitchEstimations;
     }
@@ -31,12 +35,42 @@ public:
         _pitchEstimations.clear();
     }
     
+    /**
+        Background Curve points
+     */
+    std::vector<ScoreCurvePoint> curvePoints() {
+        return _curvePoints;
+    }
+    
+    void configureCurvePoints(std::vector<ScoreCurvePoint> points) {
+        _curvePoints = points;
+    }
+    
+    void emptyCurvePoints() {
+        _curvePoints.clear();
+    }
+    
     float backgroundCurveMax() {
         return _backgroundCurveMax;
     }
     
     void configureBackgroundCurveMaximum(float max) {
         _backgroundCurveMax = max;
+    }
+    
+    /**
+        Note Estimation Colorings
+     */
+    std::vector<ScoreNoteEstimation> noteEstimations() const {
+        return _noteEstimations;
+    }
+    
+    void configureNoteEstimations(std::vector<ScoreNoteEstimation> estimations) {
+        _noteEstimations = estimations;
+    }
+    
+    void emptyNoteEstimations() {
+        _noteEstimations.clear();
     }
     
 private:
