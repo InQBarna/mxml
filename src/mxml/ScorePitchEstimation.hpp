@@ -22,4 +22,6 @@ public:
     int octave;
     double offset;
     std::string note;
+    
+    float timeInMeasures;
 };

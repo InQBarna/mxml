@@ -27,12 +27,10 @@ using namespace dom;
 
 MeasureGeometryFactory::MeasureGeometryFactory(const SpanCollection& spans,
                                                const ScoreProperties& scoreProperties,
-                                               const Metrics& metrics,
-                                               ScoreDrawings *drawings)
+                                               const Metrics& metrics)
 : _spans(spans),
   _scoreProperties(scoreProperties),
   _metrics(metrics),
-  _drawings(drawings),
   _partIndex(metrics.partIndex()),
   _chordGeometryFactory(scoreProperties, metrics)
 {
@@ -40,7 +38,7 @@ MeasureGeometryFactory::MeasureGeometryFactory(const SpanCollection& spans,
 
 std::unique_ptr<MeasureGeometry> MeasureGeometryFactory::build(const Measure& measure, bool firstMeasureInSystem) {
     _measureIndex = measure.index();
-    _geometry.reset(new MeasureGeometry(measure, _spans, _scoreProperties, _metrics, _drawings));
+    _geometry.reset(new MeasureGeometry(measure, _spans, _scoreProperties, _metrics, *new ScoreDrawings()));
     _currentTime = 0;
 
     if (firstMeasureInSystem)

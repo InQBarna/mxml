@@ -30,7 +30,7 @@ MeasureGeometry::MeasureGeometry(const Measure& measure,
                                  const SpanCollection& spans,
                                  const ScoreProperties& scoreProperties,
                                  const Metrics& metrics,
-                                 ScoreDrawings *drawings)
+                                 ScoreDrawings& drawings)
 : _measure(measure),
   _spans(spans),
   _scoreProperties(scoreProperties),

@@ -24,7 +24,7 @@ public:
                     const SpanCollection& spans,
                     const ScoreProperties& scoreProperties,
                     const Metrics& metrics,
-                    ScoreDrawings *drawings);
+                    ScoreDrawings& drawings);
     
     const dom::Measure& measure() const {
         return _measure;
@@ -49,12 +49,12 @@ public:
     const ScoreProperties& scoreProperties() const {
         return _scoreProperties;
     }
-    
-    ScoreDrawings *drawings() const {
+
+    const ScoreDrawings& drawings() const {
         return _drawings;
     }
     
-    void configureDrawings(ScoreDrawings *draws) {
+    void configureDrawings(ScoreDrawings& draws) {
         _drawings = draws;
     }
     
@@ -65,7 +65,7 @@ private:
     const Metrics& _metrics;
     const std::size_t _partIndex;
 
-    ScoreDrawings *_drawings;
+    ScoreDrawings& _drawings;
     
     /**
      If true this measure should show its number.

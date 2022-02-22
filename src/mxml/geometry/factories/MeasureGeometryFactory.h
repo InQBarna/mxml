@@ -26,8 +26,7 @@ class MeasureGeometryFactory {
 public:
     MeasureGeometryFactory(const SpanCollection& spans,
                            const ScoreProperties& scoreProperties,
-                           const Metrics& metrics,
-                           ScoreDrawings *drawings);
+                           const Metrics& metrics);
 
     std::unique_ptr<MeasureGeometry> build(const dom::Measure& measure, bool firstMeasureInSystem);
 
@@ -56,7 +55,6 @@ private:
     const ScoreProperties& _scoreProperties;
     const Metrics& _metrics;
     const std::size_t _partIndex;
-    ScoreDrawings *_drawings;
     std::size_t _measureIndex;
     std::unique_ptr<MeasureGeometry> _geometry;
 
