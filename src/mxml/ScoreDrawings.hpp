@@ -23,11 +23,11 @@ public:
     /**
         Pitch Estimation Curve
      */
-    std::vector<ScorePitchEstimation> pitchEstimations() {
+    std::vector<std::vector<ScorePitchEstimation>> pitchEstimations() {
         return _pitchEstimations;
     }
 
-    void configurePitchEstimations(std::vector<ScorePitchEstimation> estimations) {
+    void configurePitchEstimations(std::vector<std::vector<ScorePitchEstimation>> estimations) {
         _pitchEstimations = estimations;
     }
     
@@ -38,11 +38,11 @@ public:
     /**
         Background Curve points
      */
-    std::vector<ScoreCurvePoint> curvePoints() {
+    std::vector<std::vector<ScoreCurvePoint>> curvePoints() {
         return _curvePoints;
     }
     
-    void configureCurvePoints(std::vector<ScoreCurvePoint> points) {
+    void configureCurvePoints(std::vector<std::vector<ScoreCurvePoint>> points) {
         _curvePoints = points;
     }
     
@@ -74,8 +74,8 @@ public:
     }
     
 private:
-    std::vector<ScorePitchEstimation> _pitchEstimations;
+    std::vector<std::vector<ScorePitchEstimation>> _pitchEstimations;
     std::vector<ScoreNoteEstimation> _noteEstimations;
-    std::vector<ScoreCurvePoint> _curvePoints;
+    std::vector<std::vector<ScoreCurvePoint>> _curvePoints;
     float _backgroundCurveMax;
 };
