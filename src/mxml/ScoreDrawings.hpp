@@ -61,11 +61,11 @@ public:
     /**
         Note Estimation Colorings
      */
-    std::vector<ScoreNoteEstimation> noteEstimations() const {
+    std::vector<std::vector<ScoreNoteEstimation>> noteEstimations() {
         return _noteEstimations;
     }
     
-    void configureNoteEstimations(std::vector<ScoreNoteEstimation> estimations) {
+    void configureNoteEstimations(std::vector<std::vector<ScoreNoteEstimation>> estimations) {
         _noteEstimations = estimations;
     }
     
@@ -75,7 +75,7 @@ public:
     
 private:
     std::vector<std::vector<ScorePitchEstimation>> _pitchEstimations;
-    std::vector<ScoreNoteEstimation> _noteEstimations;
     std::vector<std::vector<ScoreCurvePoint>> _curvePoints;
+    std::vector<std::vector<ScoreNoteEstimation>> _noteEstimations;
     float _backgroundCurveMax;
 };
