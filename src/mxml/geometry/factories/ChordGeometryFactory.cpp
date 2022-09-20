@@ -321,16 +321,23 @@ void ChordGeometryFactory::placeArticulation(ChordGeometry* chordGeometry, Artic
 }
 
 void ChordGeometryFactory::placeBowArticulation(ChordGeometry* chordGeometry, ArticulationGeometry* articulationGeometry, Rect& notesFrame) {
-    auto stemFrame = chordGeometry->stem()->frame();
+    auto stem = chordGeometry->stem();
+    
+    Rect referenceFrame;
+    if (!stem) {
+        referenceFrame = chordGeometry->notes().back()->frame();
+    } else {
+        referenceFrame = chordGeometry->stem()->frame();
+    }
     
     Size size = articulationGeometry->size();
     
     Point location;
     location.x = notesFrame.center().x;
-    coord_t y = fminf(notesFrame.origin.y, stemFrame.origin.y - size.height/2 - ChordGeometry::kArticulationSpacing);
+    coord_t y = fminf(notesFrame.origin.y, referenceFrame.origin.y - size.height/2 - ChordGeometry::kArticulationSpacing);
     y = fminf(y, _metrics.staffOrigin(1));
     location.y = y - size.height/2 - ChordGeometry::kArticulationSpacing;
-
+    
     articulationGeometry->setLocation(location);
 }
 
